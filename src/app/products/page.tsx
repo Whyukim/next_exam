@@ -1,17 +1,25 @@
+import { getProducts } from "@/api/products";
 import Link from "next/link";
+import MeowArticle from "@/components/MeowArticle";
 
 interface Ipage {}
 
-function page({}: Ipage) {
-  const products = ["shirt", "pants", "skirt", "shoes"];
+// export const revalidate = 0;
+
+async function page({}: Ipage) {
+  const products = await getProducts();
+
   return (
-    <ul>
-      {products.map((product) => (
-        <li>
-          <Link href={`/products/${product}`}>{product}</Link>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul>
+        {products.map((product, index) => (
+          <li key={index}>
+            <Link href={`/products/${product.id}`}>{product.name}</Link>
+          </li>
+        ))}
+      </ul>
+      <MeowArticle />
+    </>
   );
 }
 

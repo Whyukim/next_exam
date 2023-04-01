@@ -1,25 +1,29 @@
+import { getProduct, getProducts } from "@/api/products";
 import { notFound } from "next/navigation";
 
-interface Ipants {
+interface IProductPage {
   params: { slug: string };
 }
 
-export function generateMetadata({ params }: Ipants) {
+export function generateMetadata({ params }: IProductPage) {
   return {
     title: `제품의 이름 ${params.slug}`,
   };
 }
 
-function pants({ params }: Ipants) {
-  if (params.slug === "nothing") {
+async function productPage({ params: { slug } }: IProductPage) {
+  const product = await getProduct(slug);
+
+  if (!product) {
     notFound();
   }
-  return <div>{params.slug} pants</div>;
+
+  return <div>{product.name} 페이지에 온걸 환영합니다</div>;
 }
 
-export default pants;
+export default productPage;
 
-export function generateStaticParams() {
-  const products = ["pants", "bag"];
-  return products.map((product) => ({ slug: product }));
+export async function generateStaticParams() {
+  const products = await getProducts();
+  return products.map((product) => ({ slug: product.id }));
 }
