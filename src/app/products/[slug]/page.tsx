@@ -1,6 +1,7 @@
 import { getProduct, getProducts } from "@/api/products";
-import { notFound } from "next/navigation";
-
+import GoRedirectButton from "@/components/GoRedirectButton";
+import Image from "next/image";
+import { notFound, redirect } from "next/navigation";
 interface IProductPage {
   params: { slug: string };
 }
@@ -15,10 +16,22 @@ async function productPage({ params: { slug } }: IProductPage) {
   const product = await getProduct(slug);
 
   if (!product) {
-    notFound();
+    redirect("/products");
+    // notFound();
   }
 
-  return <div>{product.name} 페이지에 온걸 환영합니다</div>;
+  return (
+    <>
+      <Image
+        src={`/images/${product.image}`}
+        alt="image"
+        width={300}
+        height={300}
+      />
+      <div>{product.name} 페이지에 온걸 환영합니다</div>
+      <GoRedirectButton />
+    </>
+  );
 }
 
 export default productPage;

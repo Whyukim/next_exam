@@ -2,7 +2,8 @@
   {
     "id": "11",
     "name": "바지",
-    "price": 4200
+    "price": 4200,
+    "image": "clothes.jpg"
   },
   {
     "id": "22",

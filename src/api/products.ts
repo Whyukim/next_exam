@@ -5,6 +5,7 @@ export interface IProducts {
   name: string;
   id: string;
   price: number;
+  image?: string;
 }
 
 export async function getProducts(): Promise<IProducts[]> {
